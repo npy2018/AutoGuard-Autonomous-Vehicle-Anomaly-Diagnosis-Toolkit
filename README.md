@@ -24,6 +24,28 @@ AutoGuard AI 将这一过程组织为一个 Agent 驱动的诊断闭环：
 
 系统不直接替代工程师做安全结论，而是提供结构化证据、根因候选、验证任务和人工审批入口。
 
+## 项目结构
+
+AutoGuard-Autonomous-Vehicle-Anomaly-Diagnosis-Toolkit/
+├── app/
+│   ├── api/                  # API 接口
+│   ├── services/             # 核心诊断服务
+│   ├── static/               # Web 页面资源
+│   ├── main.py               # FastAPI 入口
+│   └── schemas.py            # 数据模型
+├── data/                     # 示例诊断数据
+├── docs/
+│   └── assets/
+│       └── autoguard-architecture.png
+├── scripts/
+│   └── run_demo.py           # 命令行演示
+├── tests/                    # 自动化测试
+├── .github/workflows/ci.yml  # GitHub Actions
+├── Dockerfile
+├── docker-compose.yml
+├── pyproject.toml
+└── README.md
+
 ## 系统架构
 
 <p align="center">
