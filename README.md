@@ -26,6 +26,7 @@ AutoGuard AI 将这一过程组织为一个 Agent 驱动的诊断闭环：
 
 ## 项目结构
 
+```text
 AutoGuard-Autonomous-Vehicle-Anomaly-Diagnosis-Toolkit/
 ├── app/
 │   ├── api/                  # API 接口
@@ -40,11 +41,14 @@ AutoGuard-Autonomous-Vehicle-Anomaly-Diagnosis-Toolkit/
 ├── scripts/
 │   └── run_demo.py           # 命令行演示
 ├── tests/                    # 自动化测试
-├── .github/workflows/ci.yml  # GitHub Actions
+├── .github/
+│   └── workflows/
+│       └── ci.yml            # GitHub Actions
 ├── Dockerfile
 ├── docker-compose.yml
 ├── pyproject.toml
 └── README.md
+```
 
 ## 系统架构
 
