@@ -1,3 +1,19 @@
+<div align="center">
+
+# 🛡️ AutoGuard AI
+
+### Agent-Driven Autonomous Vehicle Anomaly Diagnosis Toolkit
+
+面向自动驾驶研发团队的 OTA 影响分析、异常检测、根因诊断与反事实验证工具箱。
+
+[![CI](https://github.com/npy2018/AutoGuard-Autonomous-Vehicle-Anomaly-Diagnosis-Toolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/npy2018/AutoGuard-Autonomous-Vehicle-Anomaly-Diagnosis-Toolkit/actions/workflows/ci.yml)
+[![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-API-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Status](https://img.shields.io/badge/Status-Competition%20MVP-orange)](#-project-status)
+
+</div>
+
 # AutoGuard AI
 
 面向无人车研发团队的 **AI异常行为诊断工具箱 MVP**。项目采用“通用诊断底座 + OTA专项应用”思路，首个示例聚焦：
