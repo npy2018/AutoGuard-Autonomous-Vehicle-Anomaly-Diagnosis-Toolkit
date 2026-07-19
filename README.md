@@ -53,25 +53,6 @@ AutoGuard-Autonomous-Vehicle-Anomaly-Diagnosis-Toolkit/
 ## 系统架构
 
 <p align="center">
-  AutoGuard-Autonomous-Vehicle-Anomaly-Diagnosis-Toolkit/
-├── app/
-│   ├── api/                  # API 接口
-│   ├── services/             # 核心诊断服务
-│   ├── static/               # Web 页面资源
-│   ├── main.py               # FastAPI 入口
-│   └── schemas.py            # 数据模型
-├── data/                     # 示例诊断数据
-├── docs/
-│   └── assets/
-│       └── autoguard-architecture.png
-├── scripts/
-│   └── run_demo.py           # 命令行演示
-├── tests/                    # 自动化测试
-├── .github/workflows/ci.yml  # GitHub Actions
-├── Dockerfile
-├── docker-compose.yml
-├── pyproject.toml
-└── README.md
   <img
     src="docs/assets/autoguard-architecture.png"
     alt="AutoGuard AI system architecture"
