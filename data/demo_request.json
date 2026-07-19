@@ -1,0 +1,103 @@
+{
+  "ota": {
+    "ota_version": "V2.7.0",
+    "previous_version": "V2.6.4",
+    "vehicle_model": "MiniEye Xiaozhu Demo Vehicle",
+    "odd": ["城市道路", "夜间", "小雨"],
+    "changes": [
+      {
+        "change_id": "CHG-001",
+        "component": "vision_perception",
+        "change_type": "parameter",
+        "field": "pedestrian_confidence_threshold",
+        "old_value": 0.42,
+        "new_value": 0.35,
+        "description": "降低行人检测阈值，提高低置信行人的召回率"
+      },
+      {
+        "change_id": "CHG-002",
+        "component": "planner",
+        "change_type": "parameter",
+        "field": "vru_risk_weight",
+        "old_value": 1.0,
+        "new_value": 1.1,
+        "description": "轻微提高弱势交通参与者风险权重"
+      }
+    ]
+  },
+  "event": {
+    "event_id": "EVT-RAINY-BILLBOARD-001",
+    "timestamp": "2026-07-18T20:35:12+08:00",
+    "ota_version": "V2.7.0",
+    "scene": {
+      "weather": "小雨",
+      "lighting": "夜间反光",
+      "road_type": "城市支路",
+      "object_type": "红色广告牌",
+      "known_scene": true
+    },
+    "telemetry": {
+      "speed_mps": 8.2,
+      "actual_acceleration_mps2": -2.4,
+      "expected_acceleration_min_mps2": -0.3,
+      "expected_acceleration_max_mps2": 0.2,
+      "jerk_mps3": -4.6,
+      "min_ttc_s": 5.8
+    },
+    "sensor_health": {
+      "camera_occlusion": 0.05,
+      "camera_overexposure": 0.18,
+      "radar_health": 0.94,
+      "calibration_ok": true,
+      "time_sync_ok": true
+    },
+    "hardware_health": {
+      "brake_ok": true,
+      "steering_ok": true,
+      "tire_pressure_ok": true
+    }
+  },
+  "old_replay": {
+    "version": "V2.6.4",
+    "frames": [
+      {"timestamp_s": 12.20, "object_class": "static_unknown", "object_confidence": 0.38, "crossing_probability": 0.04, "planner_risk_cost": 0.18, "acceleration_command_mps2": -0.1, "latent_signature": [0.1, 0.2, 0.1]},
+      {"timestamp_s": 12.34, "object_class": "static_unknown", "object_confidence": 0.39, "crossing_probability": 0.05, "planner_risk_cost": 0.20, "acceleration_command_mps2": -0.2, "latent_signature": [0.1, 0.22, 0.12]},
+      {"timestamp_s": 12.42, "object_class": "static_unknown", "object_confidence": 0.40, "crossing_probability": 0.05, "planner_risk_cost": 0.21, "acceleration_command_mps2": -0.2, "latent_signature": [0.12, 0.23, 0.12]},
+      {"timestamp_s": 12.51, "object_class": "static_unknown", "object_confidence": 0.40, "crossing_probability": 0.05, "planner_risk_cost": 0.22, "acceleration_command_mps2": -0.3, "latent_signature": [0.12, 0.24, 0.13]},
+      {"timestamp_s": 12.58, "object_class": "static_unknown", "object_confidence": 0.39, "crossing_probability": 0.04, "planner_risk_cost": 0.21, "acceleration_command_mps2": -0.3, "latent_signature": [0.11, 0.22, 0.12]}
+    ]
+  },
+  "new_replay": {
+    "version": "V2.7.0",
+    "frames": [
+      {"timestamp_s": 12.20, "object_class": "static_unknown", "object_confidence": 0.38, "crossing_probability": 0.04, "planner_risk_cost": 0.18, "acceleration_command_mps2": -0.1, "latent_signature": [0.1, 0.2, 0.1]},
+      {"timestamp_s": 12.34, "object_class": "pedestrian", "object_confidence": 0.36, "crossing_probability": 0.31, "planner_risk_cost": 0.42, "acceleration_command_mps2": -0.4, "latent_signature": [0.42, 0.55, 0.31]},
+      {"timestamp_s": 12.42, "object_class": "pedestrian", "object_confidence": 0.41, "crossing_probability": 0.68, "planner_risk_cost": 0.65, "acceleration_command_mps2": -1.1, "latent_signature": [0.55, 0.63, 0.45]},
+      {"timestamp_s": 12.51, "object_class": "pedestrian", "object_confidence": 0.46, "crossing_probability": 0.81, "planner_risk_cost": 0.88, "acceleration_command_mps2": -2.0, "latent_signature": [0.64, 0.72, 0.51]},
+      {"timestamp_s": 12.58, "object_class": "pedestrian", "object_confidence": 0.49, "crossing_probability": 0.84, "planner_risk_cost": 0.93, "acceleration_command_mps2": -2.4, "latent_signature": [0.68, 0.75, 0.55]}
+    ]
+  },
+  "historical_cases": [
+    {
+      "case_id": "CASE-017",
+      "title": "雨夜广告牌误识别为行人",
+      "description": "夜间湿滑路面和高对比广告牌使低置信目标被识别为行人，规划产生急刹。",
+      "root_cause": "行人阈值过低且缺少跨帧一致性过滤",
+      "fix": "增加时序一致性和视觉雷达交叉确认"
+    },
+    {
+      "case_id": "CASE-031",
+      "title": "施工围挡触发过度制动",
+      "description": "围挡图案与人体轮廓相似，感知分类在连续帧中抖动。",
+      "root_cause": "低置信目标直接进入高风险规划链路",
+      "fix": "优化分类阈值并增加持续帧判断"
+    },
+    {
+      "case_id": "CASE-044",
+      "title": "摄像头脏污导致目标漂移",
+      "description": "摄像头污渍造成检测框漂移和制动异常。",
+      "root_cause": "传感器健康状态异常",
+      "fix": "增加镜头脏污检测并降级运行"
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AutoGuard AI</title>
+  <style>
+    :root { color-scheme: light; --ink:#152235; --muted:#617086; --line:#dfe6ef; --accent:#1f6feb; --bg:#f5f8fc; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; color:var(--ink); background:var(--bg); }
+    header { padding:56px 24px 44px; background:linear-gradient(135deg,#0f2747,#174d8f); color:white; }
+    header div, main { max-width:1120px; margin:auto; }
+    h1 { font-size:42px; margin:0 0 14px; }
+    header p { max-width:780px; font-size:18px; line-height:1.7; opacity:.9; }
+    button { border:0; border-radius:10px; padding:13px 20px; background:white; color:#174d8f; font-weight:700; cursor:pointer; }
+    main { padding:28px 24px 70px; }
+    .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:24px; }
+    .card { background:white; border:1px solid var(--line); border-radius:14px; padding:18px; box-shadow:0 4px 16px rgba(26,46,76,.05); }
+    .card h3 { margin:0 0 8px; font-size:16px; }
+    .card p { margin:0; color:var(--muted); line-height:1.55; }
+    #status { margin:20px 0; color:var(--muted); }
+    .result { display:none; }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    pre { white-space:pre-wrap; word-break:break-word; background:#0d1726; color:#d8e5f6; padding:18px; border-radius:12px; overflow:auto; }
+    .badge { display:inline-block; padding:5px 9px; border-radius:999px; background:#e9f2ff; color:#1459a6; font-size:13px; font-weight:700; }
+    @media (max-width:800px){ .steps,.grid{grid-template-columns:1fr;} h1{font-size:34px;} }
+  </style>
+</head>
+<body>
+<header>
+  <div>
+    <span class="badge">无人车异常诊断 MVP</span>
+    <h1>AutoGuard AI</h1>
+    <p>从OTA版本变化出发，自动完成风险分析、异常检测、首个分歧定位、证据化根因推理与反事实验证。</p>
+    <button id="run">运行“雨夜广告牌急刹”示例</button>
+  </div>
+</header>
+<main>
+  <section class="steps">
+    <div class="card"><h3>1. OTA影响分析</h3><p>识别代码、模型和参数变化可能影响的功能与场景。</p></div>
+    <div class="card"><h3>2. 异常与混杂过滤</h3><p>区分软件退化、未知场景和硬件传感器问题。</p></div>
+    <div class="card"><h3>3. 首个分歧定位</h3><p>对齐新旧版本回放，找到异常最早出现的信号。</p></div>
+    <div class="card"><h3>4. 根因候选</h3><p>每项结论绑定时间戳、版本变更和历史案例。</p></div>
+    <div class="card"><h3>5. 反事实验证</h3><p>恢复参数或修改单一变量，验证异常是否消失。</p></div>
+    <div class="card"><h3>6. 发布决策</h3><p>生成修复、回归测试、暂停扩量或回滚建议。</p></div>
+  </section>
+  <p id="status">尚未运行。</p>
+  <section id="result" class="result">
+    <div class="grid">
+      <div class="card"><h3>首个分歧</h3><pre id="divergence"></pre></div>
+      <div class="card"><h3>发布建议</h3><pre id="decision"></pre></div>
+    </div>
+    <div class="card" style="margin-top:16px"><h3>完整诊断报告</h3><pre id="report"></pre></div>
+  </section>
+</main>
+<script>
+const run = document.getElementById('run');
+const status = document.getElementById('status');
+const result = document.getElementById('result');
+run.addEventListener('click', async () => {
+  run.disabled = true; status.textContent = '正在运行六阶段诊断流水线…';
+  try {
+    const response = await fetch('/api/v1/demo', { method: 'POST' });
+    if (!response.ok) throw new Error(await response.text());
+    const data = await response.json();
+    document.getElementById('divergence').textContent = JSON.stringify(data.first_divergence, null, 2);
+    document.getElementById('decision').textContent = JSON.stringify(data.decision, null, 2);
+    document.getElementById('report').textContent = data.markdown_report;
+    result.style.display = 'block';
+    status.textContent = '诊断完成。';
+  } catch (error) {
+    status.textContent = '运行失败：' + error.message;
+  } finally { run.disabled = false; }
+});
+</script>
+</body>
+</html>

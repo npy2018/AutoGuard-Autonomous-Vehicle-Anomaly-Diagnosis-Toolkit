@@ -1,0 +1,8 @@
+services:
+  autoguard:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      AUTOGUARD_ENV: development
+      AUTOGUARD_DATA_DIR: /app/data
